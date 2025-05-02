@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedra, Papel ou Tesoura</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+      padding-top: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+    .btn {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #ddd;
+    }
+    .result, .score {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    .quit {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Jogo: Pedra, Papel ou Tesoura</h1>
+
+  <button class="btn" onclick="play('r')">🪨 Pedra</button>
+  <button class="btn" onclick="play('p')">📄 Papel</button>
+  <button class="btn" onclick="play('t')">✂️ Tesoura</button>
+
+  <div class="result" id="result"></div>
+  <div class="score" id="score"></div>
+
+  <button class="quit" onclick="finalizar()">Sair do Jogo</button>
+
+  <script>
+    let userScore = 0;
+    let bootScore = 0;
+
+    const nomes = {
+      "r": "Pedra",
+      "p": "Papel",
+      "t": "Tesoura"
+    };
+
+    function play(userChoice) {
+      const options = ["r", "p", "t"];
+      const bootChoice = options[Math.floor(Math.random() * options.length)];
+
+      let resultText = `Você escolheu <strong>${nomes[userChoice]}</strong>. Computador escolheu <strong>${nomes[bootChoice]}</strong>.<br>`;
+
+      if (userChoice === bootChoice) {
+        resultText += "Empate!";
+      } else if (
+        (userChoice === "r" && bootChoice === "t") ||
+        (userChoice === "t" && bootChoice === "p") ||
+        (userChoice === "p" && bootChoice === "r")
+      ) {
+        userScore++;
+        resultText += "<strong>Você ganhou!</strong>";
+      } else {
+        bootScore++;
+        resultText += "<strong>Você perdeu!</strong>";
+      }
+
+      document.getElementById("result").innerHTML = resultText;
+      document.getElementById("score").innerHTML = `Placar: Você ${userScore} x ${bootScore} Computador`;
+    }
+
+    function finalizar() {
+      let finalMessage = `Placar final: Você ${userScore} x ${bootScore} Computador.\n`;
+      if (userScore > bootScore) {
+        finalMessage += "!!PARABÉNS, VOCÊ GANHOU!!";
+      } else if (userScore === bootScore) {
+        finalMessage += "Empate :(";
+      } else {
+        finalMessage += "Você é muito ruim, PERDEDOR HAHAHAHAHA";
+      }
+      alert(finalMessage);
+      location.reload(); // Reinicia o jogo
+    }
+  </script>
+
+</body>
+</html>
